@@ -4,9 +4,11 @@ import com.example.commutitas.enums.AccountType;
 import com.example.commutitas.enums.DietaryRestrictions;
 import com.example.commutitas.enums.Location;
 import com.example.commutitas.enums.Religion;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Entity
@@ -32,7 +34,9 @@ public class Account {
     private List<DietaryRestrictions> dietaryRestrictions;
     private Religion religion;
 
-    private LocalDate dob;
+//    @JsonProperty
+//    private LocalDate dob;
+    @Transient
     private Integer age;
     private String bio;
 
@@ -48,7 +52,7 @@ public class Account {
             AccountType accountType,
             List<DietaryRestrictions> dietaryRestrictions,
             Religion religion,
-            LocalDate dob,
+//            LocalDate dob,
             Integer age,
             String bio) {
         this.id = id;
@@ -59,7 +63,7 @@ public class Account {
         this.accountType = accountType;
         this.dietaryRestrictions = dietaryRestrictions;
         this.religion = religion;
-        this.dob = dob;
+//        this.dob = dob;
         this.age = age;
         this.bio = bio;
     }
@@ -72,7 +76,7 @@ public class Account {
             AccountType accountType,
             List<DietaryRestrictions> dietaryRestrictions,
             Religion religion,
-            LocalDate dob,
+//            LocalDate dob,
             Integer age,
             String bio) {
         this.name = name;
@@ -82,7 +86,7 @@ public class Account {
         this.accountType = accountType;
         this.dietaryRestrictions = dietaryRestrictions;
         this.religion = religion;
-        this.dob = dob;
+//        this.dob = dob;
         this.age = age;
         this.bio = bio;
     }
@@ -119,8 +123,12 @@ public class Account {
         this.email = email;
     }
 
+//    public Integer getAge() {
+//        return Period.between(this.dob, LocalDate.now()).getYears();
+//    }
+
     public Integer getAge() {
-        return age;
+        return this.age;
     }
 
     public void setAge(Integer age) {
@@ -138,7 +146,7 @@ public class Account {
                 ", accountType=" + accountType +
                 ", dietaryRestrictions=" + dietaryRestrictions +
                 ", religion=" + religion +
-                ", dob=" + dob +
+//                ", dob=" + dob +
                 ", age=" + age +
                 '}';
     }
@@ -175,13 +183,13 @@ public class Account {
         this.religion = religion;
     }
 
-    public LocalDate getDob() {
-        return dob;
-    }
-
-    public void setDob(LocalDate dob) {
-        this.dob = dob;
-    }
+//    public LocalDate getDob() {
+//        return dob;
+//    }
+//
+//    public void setDob(LocalDate dob) {
+//        this.dob = dob;
+//    }
 
     public String getBio() {
         return this.bio;

@@ -6,6 +6,7 @@ public enum Religion {
     AGNOSTIC,
     HINDUISM,
     BUDDHISM,
-    SIKHISM
+    SIKHISM,
+    ALL
 
 }

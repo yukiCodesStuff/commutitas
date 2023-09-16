@@ -23,6 +23,6 @@ public class EventAttendee {
     }
 
     public EventAttendee() {
-        
+
     }
 }

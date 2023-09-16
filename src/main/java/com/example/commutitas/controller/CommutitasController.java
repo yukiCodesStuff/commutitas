@@ -1,6 +1,7 @@
 package com.example.commutitas.controller;
 
 import com.example.commutitas.entity.Account;
+import com.example.commutitas.entity.Event;
 import com.example.commutitas.service.CommutitasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/commutitas/users/")
+@RequestMapping(value = "/commutitas")
 public class CommutitasController {
 
     private final CommutitasService commutitasService;
@@ -18,9 +19,14 @@ public class CommutitasController {
         this.commutitasService = commutitasService;
     }
 
-    @GetMapping
+    @GetMapping(value = "/users")
     public List<Account> getAccounts() {
         return commutitasService.getAccounts();
+    }
+
+    @GetMapping(value = "/events")
+    public List<Event> getEvents() {
+        return commutitasService.getEvents();
     }
 
     @PostMapping

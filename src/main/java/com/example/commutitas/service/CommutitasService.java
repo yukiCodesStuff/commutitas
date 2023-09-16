@@ -1,14 +1,15 @@
 package com.example.commutitas.service;
 
 import com.example.commutitas.entity.Account;
+import com.example.commutitas.entity.Event;
 import com.example.commutitas.enums.AccountType;
 import com.example.commutitas.enums.Location;
 import com.example.commutitas.enums.Religion;
-import com.example.commutitas.repository.CommutitasRepository;
+import com.example.commutitas.repository.AccountRepository;
+import com.example.commutitas.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,56 +18,59 @@ import static com.example.commutitas.enums.DietaryRestrictions.SHELLFISH;
 
 @Service
 public class CommutitasService {
-    private CommutitasRepository commutitasRepository;
+    private AccountRepository accountRepository;
+    private EventRepository eventRepository;
 
     @Autowired
-    public CommutitasService(CommutitasRepository commutitasRepository) {
-        this.commutitasRepository = commutitasRepository;
+    public CommutitasService(
+            AccountRepository accountRepository,
+            EventRepository eventRepository
+    ) {
+        this.accountRepository = accountRepository;
+        this.eventRepository = eventRepository;
     }
 
     public List<Account> getAccounts() {
-        return commutitasRepository.findAll();
+        return accountRepository.findAll();
+    }
+
+    public List<Event> getEvents() {
+        return eventRepository.findAll();
     }
 
     public void addNewAccount(Account account) {
-        Optional<Account> accountByName = commutitasRepository
+        Optional<Account> accountByName = accountRepository
                 .findAccountByName(account.getName());
 
         if (accountByName.isPresent()) {
             throw new IllegalStateException("name taken");
         }
 
-        commutitasRepository.save(account);
+        accountRepository.save(account);
+    }
+
+    public void addNewEvent(
+            Account account,
+            Event event)
+    {
+        Optional<Event> eventByName = eventRepository
+                .findEventByName(event.getName());
+
+        String accountName = account.getName();
+        if (eventByName.isPresent() && eventByName.get().getHostName().equals(accountName)) {
+            throw new IllegalStateException("Event name already taken!");
+        }
+
+        eventRepository.save(event);
     }
 
     public void deleteAccount(Long id) {
-        boolean exists = commutitasRepository.existsById(id);
+        boolean exists = accountRepository.existsById(id);
         if (!exists) {
             throw new IllegalStateException(
                     "account with id " + id + " does not exist");
         }
 
-        commutitasRepository.deleteById(id);
-    }
-
-    public List<Account> getAccountsTest() {
-        return List.of(
-                new Account(
-                        Long.valueOf(1),
-                        Location.TX,
-                        "000-000-0000",
-                        "jane.doe@email.com",
-                        "Jane Doe",
-                        AccountType.GUEST,
-                        List.of(
-                                SHELLFISH,
-                                PEANUT_BUTTER
-                        ),
-                        Religion.CHRISTIANITY,
-                        23,
-//                        LocalDate.of(2000, 1, 1),
-                        "I love to hack!"
-                )
-        );
+        accountRepository.deleteById(id);
     }
 }

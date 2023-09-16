@@ -12,4 +12,8 @@ public class TestController {
     }
 
 
+    @GetMapping(value = "/laura")
+    public String lauraWuzHere() {
+        return "Laura wuz jere :)";
+    }
 }

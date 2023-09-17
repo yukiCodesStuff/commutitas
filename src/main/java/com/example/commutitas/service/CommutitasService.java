@@ -2,9 +2,7 @@ package com.example.commutitas.service;
 
 import com.example.commutitas.entity.Account;
 import com.example.commutitas.entity.Event;
-import com.example.commutitas.entity.EventAttendee;
 import com.example.commutitas.repository.AccountRepository;
-import com.example.commutitas.repository.EventAttendeeRepository;
 import com.example.commutitas.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,17 +15,14 @@ import java.util.Optional;
 public class CommutitasService {
     private AccountRepository accountRepository;
     private EventRepository eventRepository;
-    private EventAttendeeRepository eventAttendeeRepository;
 
     @Autowired
     public CommutitasService(
             AccountRepository accountRepository,
-            EventRepository eventRepository,
-            EventAttendeeRepository eventAttendeeRepository
+            EventRepository eventRepository
     ) {
         this.accountRepository = accountRepository;
         this.eventRepository = eventRepository;
-        this.eventAttendeeRepository = eventAttendeeRepository;
     }
 
     public List<Account> getAccounts() {
@@ -39,18 +34,13 @@ public class CommutitasService {
     }
 
     public void addNewAccount(Account account) {
-//        Optional<Account> accountByName = accountRepository
-//                .findAccountByName(account.getName());
-//
-//        if (accountByName.isPresent()) {
-//            throw new IllegalStateException("name taken");
-//        }
 
         Optional<Account> accountByUserName = accountRepository
                 .findAccountByUserName(account.getUserName());
 
         if (accountByUserName.isPresent()) {
-            throw new IllegalStateException("Username is already taken");
+            throw new IllegalStateException("Username "
+                    + account.getUserName() + " is already taken");
         }
 
         accountRepository.save(account);
@@ -60,8 +50,8 @@ public class CommutitasService {
             String userName,
             Event event)
     {
-        Optional<Event> eventByName = eventRepository
-                .findEventByName(event.getName());
+        Optional<Event> eventByNameAndHostName = eventRepository
+                .findEventByNameAndHostName(event.getName(), event.getHostName());
 
         Optional<Account> accountByUserName = accountRepository.findAccountByUserName(userName);
 
@@ -69,8 +59,8 @@ public class CommutitasService {
             throw new IllegalStateException("The user " + userName + " does not exist!");
         }
 
-        if (eventByName.isPresent() && eventByName.get().getHostName().equals(userName)) {
-            throw new IllegalStateException("Event name already taken!");
+        if (eventByNameAndHostName.isPresent()) {
+            throw new IllegalStateException("This event already exists");
         }
 
         System.out.println(event);
@@ -89,8 +79,9 @@ public class CommutitasService {
     }
 
     public void deleteEvent(String userName, String eventName) {
-        Optional<Account> accountByUserName = accountRepository.findAccountByUserName(userName);
 
+        // Check if event exists
+        Optional<Account> accountByUserName = accountRepository.findAccountByUserName(userName);
         if (accountByUserName.isEmpty()) {
             throw new IllegalStateException("The user " + userName + " does not exist");
         }
@@ -110,11 +101,13 @@ public class CommutitasService {
             String hostName
     ) {
 
+        // Ensure user is valid
         Optional<Account> accountByUsername = accountRepository.findAccountByUserName(userName);
         if (accountByUsername.isEmpty()) {
             throw new IllegalStateException("The user " + userName + " does not exist");
         }
 
+        // Ensure event is valid
         Optional<Event> eventByEventNameAndHostName = eventRepository
                 .findEventByNameAndHostName(eventName, hostName);
         if (eventByEventNameAndHostName.isEmpty()) {
@@ -123,13 +116,23 @@ public class CommutitasService {
             );
         }
 
+        // Check to see if user is allowed to attend event
         Account attendee = accountByUsername.get();
         Event event = eventByEventNameAndHostName.get();
 
-        List<Account> copyThing = event.getAttendees();
-        copyThing.add(attendee);
+        if (attendee.getAge() < event.getAgeLimit()) {
+            throw new IllegalStateException("You are too young to attend this event!");
+        } else if (event.getHeadCount() >= event.getMaxCapacity()) {
+            throw new IllegalStateException("This party is full");
+        } else if (event.getAttendees().contains(attendee)) {
+            throw new IllegalStateException("You are already attending this event");
+        }
 
-        event.setAttendees(copyThing);
+        // Add user to the attendee list
+        List<Account> copyOfAttendeeList = event.getAttendees();
+        copyOfAttendeeList.add(attendee);
+
+        event.setAttendees(copyOfAttendeeList);
 
         // Save the event and flush changes to the database
         eventRepository.saveAndFlush(event);
@@ -140,11 +143,14 @@ public class CommutitasService {
             String eventName,
             String hostName
     ) {
+
+        // Check if user exists
         Optional<Account> accountByUsername = accountRepository.findAccountByUserName(userName);
         if (accountByUsername.isEmpty()) {
             throw new IllegalStateException("The user " + userName + " does not exist");
         }
 
+        // Check if event exists
         Optional<Event> eventByEventNameAndHostName = eventRepository
                 .findEventByNameAndHostName(eventName, hostName);
         if (eventByEventNameAndHostName.isEmpty()) {
@@ -153,6 +159,7 @@ public class CommutitasService {
             );
         }
 
+        // Remove user from event
         Account attendee = accountByUsername.get();
         Event event = eventByEventNameAndHostName.get();
 

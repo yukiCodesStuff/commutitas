@@ -4,7 +4,6 @@ import com.example.commutitas.enums.AccountType;
 import com.example.commutitas.enums.DietaryRestrictions;
 import com.example.commutitas.enums.Location;
 import com.example.commutitas.enums.Religion;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.List;

@@ -37,6 +37,7 @@ public class Event {
             generator = "event_sequence"
     )
     private Long id;
+    private Integer headCount = attendees.size();
 
     public Event(
             String name,
@@ -200,6 +201,10 @@ public class Event {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public Integer getHeadCount() {
+        return this.headCount;
     }
 
     @Override

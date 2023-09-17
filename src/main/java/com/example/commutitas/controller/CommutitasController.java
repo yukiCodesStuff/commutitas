@@ -65,4 +65,13 @@ public class CommutitasController {
     ) {
         commutitasService.registerForEvent(userName, eventName, hostName);
     }
+
+    @PutMapping(value = "/{userName}/withdraw/{eventName}/{hostName}")
+    public void withdrawEvent(
+            @PathVariable("userName") String userName,
+            @PathVariable("eventName") String eventName,
+            @PathVariable("hostName") String hostName
+    ) {
+        commutitasService.withdrawFromEvent(userName, eventName, hostName);
+    }
 }

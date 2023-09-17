@@ -2,10 +2,7 @@ package com.example.commutitas.entity;
 
 import com.example.commutitas.enums.Location;
 import com.example.commutitas.enums.Religion;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -14,6 +11,7 @@ import java.util.List;
 public class Event {
 
     private String name;
+    private String userName;
     private String hostName;
     private Religion religion;
     private Integer maxCapacity;
@@ -26,13 +24,47 @@ public class Event {
     @OneToMany(mappedBy = "event")
     private List<EventAttendee> attendees;
     @Id
+    @SequenceGenerator(
+            name = "event_sequence",
+            sequenceName = "event_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "event_sequence"
+    )
     private Long id;
 
-    public Event() {
+    public Event(
+            String name,
+            String userName,
+            String hostName,
+            Religion religion,
+            Integer maxCapacity,
+            String date,
+            String time,
+            String city,
+            Location location,
+            String description,
+            Integer ageLimit,
+            List<EventAttendee> attendees) {
+        this.name = name;
+        this.userName = userName;
+        this.hostName = hostName;
+        this.religion = religion;
+        this.maxCapacity = maxCapacity;
+        this.date = date;
+        this.time = time;
+        this.city = city;
+        this.location = location;
+        this.description = description;
+        this.ageLimit = ageLimit;
+        this.attendees = attendees;
     }
 
     public Event(
             String name,
+            String userName,
             String hostName,
             Religion religion,
             Integer maxCapacity,
@@ -45,6 +77,7 @@ public class Event {
             List<EventAttendee> attendees,
             Long id) {
         this.name = name;
+        this.userName = userName;
         this.hostName = hostName;
         this.religion = religion;
         this.maxCapacity = maxCapacity;
@@ -56,6 +89,10 @@ public class Event {
         this.ageLimit = ageLimit;
         this.attendees = attendees;
         this.id = id;
+    }
+
+    public Event() {
+
     }
 
     public void setId(Long id) {
@@ -152,5 +189,13 @@ public class Event {
 
     public void setAttendees(List<EventAttendee> attendees) {
         this.attendees = attendees;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

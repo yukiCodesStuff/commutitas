@@ -13,4 +13,7 @@ public interface AccountRepository
 
     @Query("SELECT a FROM Account a WHERE a.name = ?1")
     Optional<Account> findAccountByName(String name);
+
+    @Query("SELECT a FROM Account a WHERE a.user_name = ?1")
+    Optional<Account> findAccountByUserName(String userName);
 }

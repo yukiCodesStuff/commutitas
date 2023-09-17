@@ -7,8 +7,6 @@ import com.example.commutitas.enums.Religion;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 
 @Entity
@@ -26,6 +24,7 @@ public class Account {
     )
 
     private Long id;
+    private String user_name;
     private Location location;
     private String phoneNumber;
     private String email;
@@ -33,10 +32,6 @@ public class Account {
     private AccountType accountType;
     private List<DietaryRestrictions> dietaryRestrictions;
     private Religion religion;
-
-//    @JsonProperty
-//    private LocalDate dob;
-    @Transient
     private Integer age;
     private String bio;
 
@@ -45,6 +40,7 @@ public class Account {
 
     public Account(
             Long id,
+            String userName,
             Location location,
             String phoneNumber,
             String email,
@@ -52,10 +48,10 @@ public class Account {
             AccountType accountType,
             List<DietaryRestrictions> dietaryRestrictions,
             Religion religion,
-//            LocalDate dob,
             Integer age,
             String bio) {
         this.id = id;
+        this.user_name = userName;
         this.location = location;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -63,12 +59,12 @@ public class Account {
         this.accountType = accountType;
         this.dietaryRestrictions = dietaryRestrictions;
         this.religion = religion;
-//        this.dob = dob;
         this.age = age;
         this.bio = bio;
     }
 
     public Account(
+            String userName,
             Location location,
             String phoneNumber,
             String email,
@@ -76,9 +72,9 @@ public class Account {
             AccountType accountType,
             List<DietaryRestrictions> dietaryRestrictions,
             Religion religion,
-//            LocalDate dob,
             Integer age,
             String bio) {
+        this.user_name = userName;
         this.name = name;
         this.location = location;
         this.phoneNumber = phoneNumber;
@@ -86,7 +82,6 @@ public class Account {
         this.accountType = accountType;
         this.dietaryRestrictions = dietaryRestrictions;
         this.religion = religion;
-//        this.dob = dob;
         this.age = age;
         this.bio = bio;
     }
@@ -123,10 +118,6 @@ public class Account {
         this.email = email;
     }
 
-//    public Integer getAge() {
-//        return Period.between(this.dob, LocalDate.now()).getYears();
-//    }
-
     public Integer getAge() {
         return this.age;
     }
@@ -146,7 +137,6 @@ public class Account {
                 ", accountType=" + accountType +
                 ", dietaryRestrictions=" + dietaryRestrictions +
                 ", religion=" + religion +
-//                ", dob=" + dob +
                 ", age=" + age +
                 '}';
     }
@@ -183,19 +173,19 @@ public class Account {
         this.religion = religion;
     }
 
-//    public LocalDate getDob() {
-//        return dob;
-//    }
-//
-//    public void setDob(LocalDate dob) {
-//        this.dob = dob;
-//    }
-
     public String getBio() {
         return this.bio;
     }
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public String getUserName() {
+        return user_name;
+    }
+
+    public void setUserName(String userName) {
+        this.user_name = userName;
     }
 }

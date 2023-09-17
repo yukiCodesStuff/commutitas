@@ -24,7 +24,7 @@ public class CommutitasController {
         return commutitasService.getAccounts();
     }
 
-    @GetMapping(value = "/events")
+    @GetMapping(value = "/event")
     public List<Event> getEvents() {
         return commutitasService.getEvents();
     }
@@ -35,9 +35,25 @@ public class CommutitasController {
         commutitasService.addNewAccount(account);
     }
 
+    @PostMapping(value = "/event/{accountName}/create")
+    public void createNewEvent(
+            @PathVariable("accountName") String accountName,
+            @RequestBody Event event
+    ) {
+        commutitasService.addNewEvent(accountName, event);
+    }
+
     @DeleteMapping(path = "{accountId}")
     public void deleteAccount(
             @PathVariable("accountId") Long id) {
         commutitasService.deleteAccount(id);
+    }
+
+    @DeleteMapping(path = "/event/delete/{eventName}/{userName}")
+    public void deleteEvent(
+            @PathVariable("eventName") String eventName,
+            @PathVariable("userName") String userName
+    ) {
+        commutitasService.deleteEvent(userName, eventName);
     }
 }

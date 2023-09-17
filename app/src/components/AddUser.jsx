@@ -10,7 +10,7 @@ function AddUser() {
         email: 'john@example.com',
         accountType: 'GUEST',
         dietaryRestrictions: [],
-        religion: 'AGNOSITC',
+        religion: 'AGNOSTIC',
         age: '30',
         bio: 'I am a software engineer with a passion for coding.'
     });
@@ -40,17 +40,6 @@ function AddUser() {
             [name]: value
         });
     };
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //
-    //     try {
-    //         const response = await axios.post('http://localhost:8080/commutitas', formData);
-    //         console.log('Response:', response.data);
-    //     } catch (error) {
-    //         console.error('Error:', error);
-    //     }
-    // };
 
     return (
         <div>
@@ -103,24 +92,6 @@ function AddUser() {
                 <br />
                 <button type="submit">Submit</button>
             </form>
-            <div>
-                <h1>Commutitas Registration</h1>
-                {isSubmitted ? (
-                    <div>
-                        <p>Registration Successful!</p>
-                        <h2>New User:</h2>
-                        <p>Username: {newUser.userName}</p>
-                        <p>Full Name: {newUser.name}</p>
-                        <p>Location: {newUser.location}</p>
-                        {/* Add more user data here */}
-                    </div>
-                ) : (
-                    <form onSubmit={handleSubmit}>
-                        {/* ... Your form fields ... */}
-                        <button type="submit">Submit</button>
-                    </form>
-                )}
-            </div>
         </div>
     );
 }

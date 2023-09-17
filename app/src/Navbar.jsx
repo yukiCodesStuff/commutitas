@@ -13,6 +13,7 @@ const Navbar = () => {
       <a href="/ProfilePage">Profile</a>
       <a href="/AddUser">Add User</a>
       <a href="/GetUsers">Get Users</a>
+      <a href="/CreateEvent">Create Event</a>
       <br></br>
     <br></br>
     </div>

@@ -6,6 +6,8 @@ import ProfilePage from './components/ProfilePage';
 import BrowsePage from './components/BrowsePage';
 import AddUser from './components/AddUser';
 import GetUsers from "./components/GetUsers";
+import EventCreator from "./components/CreateEvent";
+import CreateEvent from "./components/CreateEvent";
 
 function App() {
   const path = window.location.pathname; // Get the current URL path
@@ -20,7 +22,10 @@ function App() {
     content = <AddUser />;
   } else if (path === '/GetUsers') {
     content = <GetUsers />;
-  } else {
+  } else if (path === '/CreateEvent') {
+    content = <CreateEvent />;
+  }
+  else {
     content = <Home />;
   }
 

@@ -1,7 +1,7 @@
 // Home.jsx
 import React from 'react';
-import Navbar from './Navbar';
-import SignIn from './SignIn';
+import Navbar from '../Navbar';
+import SignIn from '../SignIn';
 
 const Home = () => {
   return (

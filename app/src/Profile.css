@@ -1,0 +1,63 @@
+/* SignIn.css */
+
+/* Container */
+.container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      /* Form Title */
+      .form-title {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      
+      /* Form */
+      .form {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      /* Form Group */
+      .form-group {
+        margin-bottom: 15px;
+      }
+      
+      /* Label */
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      
+      /* Input and Select */
+      .form-control {
+        padding: 8px; /* Adjust the padding to make the text boxes smaller */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        outline: none;
+        width:80%; /* Set the width to 100% to make the text boxes fill the container */
+      }
+      
+      /* Submit Button */
+      .btn-submit {
+        background-color: #333;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+      }
+      
+      .btn-submit:hover {
+        background-color: #555;
+      }
+      

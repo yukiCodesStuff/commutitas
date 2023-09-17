@@ -1,5 +1,6 @@
 // Profile.jsx
 import React from 'react';
+import './Profile.css'; // Import the CSS file for styling
 
 const Profile = () => {
   return (

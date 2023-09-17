@@ -48,6 +48,20 @@ public class CommutitasService {
         accountRepository.save(account);
     }
 
+    public void checkEachUser(List<Account> accounts) {
+        for (Account account : accounts) {
+            addNewAccount(account);
+            Optional<Account> accountByUserName = accountRepository
+                .findAccountByUserName(account.getUserName());
+
+            if (accountByUserName.isPresent()) {
+                return;
+        }
+
+        accountRepository.save(account);
+        }
+    }
+
     public void addNewEvent(
             String userName,
             Event event)

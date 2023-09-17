@@ -23,6 +23,7 @@ public class Account {
             generator = "account_sequence"
     )
 
+
     private Long id;
     private String user_name;
     private Location location;
@@ -34,6 +35,7 @@ public class Account {
     private Religion religion;
     private Integer age;
     private String bio;
+
 
     public Account() {
     }

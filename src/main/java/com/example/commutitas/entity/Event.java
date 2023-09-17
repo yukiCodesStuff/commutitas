@@ -21,8 +21,11 @@ public class Event {
     private Location location;
     private String description;
     private Integer ageLimit;
-    @OneToMany(mappedBy = "event")
-    private List<EventAttendee> attendees;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "account_id")
+    private List<Account> attendees;
+
+
     @Id
     @SequenceGenerator(
             name = "event_sequence",
@@ -47,7 +50,7 @@ public class Event {
             Location location,
             String description,
             Integer ageLimit,
-            List<EventAttendee> attendees) {
+            List<Account> attendees) {
         this.name = name;
         this.userName = userName;
         this.hostName = hostName;
@@ -74,7 +77,7 @@ public class Event {
             Location location,
             String description,
             Integer ageLimit,
-            List<EventAttendee> attendees,
+            List<Account> attendees,
             Long id) {
         this.name = name;
         this.userName = userName;
@@ -183,11 +186,11 @@ public class Event {
         this.ageLimit = ageLimit;
     }
 
-    public List<EventAttendee> getAttendees() {
+    public List<Account> getAttendees() {
         return attendees;
     }
 
-    public void setAttendees(List<EventAttendee> attendees) {
+    public void setAttendees(List<Account> attendees) {
         this.attendees = attendees;
     }
 
@@ -197,5 +200,24 @@ public class Event {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "name='" + name + '\'' +
+                ", userName='" + userName + '\'' +
+                ", hostName='" + hostName + '\'' +
+                ", religion=" + religion +
+                ", maxCapacity=" + maxCapacity +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", city='" + city + '\'' +
+                ", location=" + location +
+                ", description='" + description + '\'' +
+                ", ageLimit=" + ageLimit +
+                ", attendees=" + attendees +
+                ", id=" + id +
+                '}';
     }
 }

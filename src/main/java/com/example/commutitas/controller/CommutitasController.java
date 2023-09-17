@@ -56,4 +56,13 @@ public class CommutitasController {
     ) {
         commutitasService.deleteEvent(userName, eventName);
     }
+
+    @PutMapping(value = "/{userName}/register/{eventName}/{hostName}")
+    public void registerForEvent(
+            @PathVariable("userName") String userName,
+            @PathVariable("eventName") String eventName,
+            @PathVariable("hostName") String hostName
+    ) {
+        commutitasService.registerForEvent(userName, eventName, hostName);
+    }
 }

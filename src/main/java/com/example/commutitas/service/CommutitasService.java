@@ -2,7 +2,9 @@ package com.example.commutitas.service;
 
 import com.example.commutitas.entity.Account;
 import com.example.commutitas.entity.Event;
+import com.example.commutitas.entity.EventAttendee;
 import com.example.commutitas.repository.AccountRepository;
+import com.example.commutitas.repository.EventAttendeeRepository;
 import com.example.commutitas.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,14 +17,17 @@ import java.util.Optional;
 public class CommutitasService {
     private AccountRepository accountRepository;
     private EventRepository eventRepository;
+    private EventAttendeeRepository eventAttendeeRepository;
 
     @Autowired
     public CommutitasService(
             AccountRepository accountRepository,
-            EventRepository eventRepository
+            EventRepository eventRepository,
+            EventAttendeeRepository eventAttendeeRepository
     ) {
         this.accountRepository = accountRepository;
         this.eventRepository = eventRepository;
+        this.eventAttendeeRepository = eventAttendeeRepository;
     }
 
     public List<Account> getAccounts() {
@@ -68,6 +73,8 @@ public class CommutitasService {
             throw new IllegalStateException("Event name already taken!");
         }
 
+        System.out.println(event);
+
         eventRepository.save(event);
     }
 
@@ -96,4 +103,48 @@ public class CommutitasService {
 
         eventRepository.deleteById(eventByName.get().getId());
     }
+
+    public void registerForEvent(
+            String userName,
+            String eventName,
+            String hostName
+    ) {
+        System.out.println("Register for this");
+        Optional<Account> accountByUsername = accountRepository.findAccountByUserName(userName);
+        if (accountByUsername.isEmpty()) {
+            throw new IllegalStateException("The user " + userName + " does not exist");
+        }
+
+        Optional<Event> eventByEventNameAndHostName = eventRepository
+                .findEventByNameAndHostName(eventName, hostName);
+        if (eventByEventNameAndHostName.isEmpty()) {
+            throw new IllegalStateException(
+                    "The event " + eventName + " hosted by " + hostName + " does not exist"
+            );
+        }
+
+        Account attendee = accountByUsername.get();
+        Event event = eventByEventNameAndHostName.get();
+
+        List<Account> copyThing = event.getAttendees();
+        copyThing.add(attendee);
+
+        event.setAttendees(copyThing);
+//
+//        event.addAttendee(attendee);
+//        Account attendee = accountByUsername.get();
+//        Event event = eventByEventNameAndHostName.get();
+
+        // Add the attendee to the event's attendees list
+//        System.out.println("Attendee: " + attendee);
+//        System.out.println("Event: " + event);
+//        EventAttendee toAdd = new EventAttendee(attendee);
+//        event.getAttendees().add(toAdd);
+//        eventAttendeeRepository.save(toAdd);
+//        System.out.println("Attendees: " + event.getAttendees());
+
+        // Save the event and flush changes to the database
+        eventRepository.saveAndFlush(event);
+    }
+
 }

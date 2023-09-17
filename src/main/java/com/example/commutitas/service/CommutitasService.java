@@ -109,7 +109,7 @@ public class CommutitasService {
             String eventName,
             String hostName
     ) {
-        System.out.println("Register for this");
+
         Optional<Account> accountByUsername = accountRepository.findAccountByUserName(userName);
         if (accountByUsername.isEmpty()) {
             throw new IllegalStateException("The user " + userName + " does not exist");
@@ -130,18 +130,36 @@ public class CommutitasService {
         copyThing.add(attendee);
 
         event.setAttendees(copyThing);
-//
-//        event.addAttendee(attendee);
-//        Account attendee = accountByUsername.get();
-//        Event event = eventByEventNameAndHostName.get();
 
-        // Add the attendee to the event's attendees list
-//        System.out.println("Attendee: " + attendee);
-//        System.out.println("Event: " + event);
-//        EventAttendee toAdd = new EventAttendee(attendee);
-//        event.getAttendees().add(toAdd);
-//        eventAttendeeRepository.save(toAdd);
-//        System.out.println("Attendees: " + event.getAttendees());
+        // Save the event and flush changes to the database
+        eventRepository.saveAndFlush(event);
+    }
+
+    public void withdrawFromEvent(
+            String userName,
+            String eventName,
+            String hostName
+    ) {
+        Optional<Account> accountByUsername = accountRepository.findAccountByUserName(userName);
+        if (accountByUsername.isEmpty()) {
+            throw new IllegalStateException("The user " + userName + " does not exist");
+        }
+
+        Optional<Event> eventByEventNameAndHostName = eventRepository
+                .findEventByNameAndHostName(eventName, hostName);
+        if (eventByEventNameAndHostName.isEmpty()) {
+            throw new IllegalStateException(
+                    "The event " + eventName + " hosted by " + hostName + " does not exist"
+            );
+        }
+
+        Account attendee = accountByUsername.get();
+        Event event = eventByEventNameAndHostName.get();
+
+        List<Account> copyThing = event.getAttendees();
+        copyThing.remove(attendee);
+
+        event.setAttendees(copyThing);
 
         // Save the event and flush changes to the database
         eventRepository.saveAndFlush(event);

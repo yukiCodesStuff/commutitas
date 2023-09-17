@@ -37,7 +37,7 @@ public class Event {
             generator = "event_sequence"
     )
     private Long id;
-    private Integer headCount = attendees.size();
+    private Integer headCount;
 
     public Event(
             String name,
@@ -51,7 +51,8 @@ public class Event {
             Location location,
             String description,
             Integer ageLimit,
-            List<Account> attendees) {
+            List<Account> attendees,
+            Integer headCount) {
         this.name = name;
         this.userName = userName;
         this.hostName = hostName;
@@ -64,6 +65,7 @@ public class Event {
         this.description = description;
         this.ageLimit = ageLimit;
         this.attendees = attendees;
+        this.headCount = headCount;
     }
 
     public Event(
@@ -79,7 +81,8 @@ public class Event {
             String description,
             Integer ageLimit,
             List<Account> attendees,
-            Long id) {
+            Long id,
+            Integer headCount) {
         this.name = name;
         this.userName = userName;
         this.hostName = hostName;
@@ -93,6 +96,7 @@ public class Event {
         this.ageLimit = ageLimit;
         this.attendees = attendees;
         this.id = id;
+        this.headCount = headCount;
     }
 
     public Event() {

@@ -11,6 +11,7 @@ const Navbar = () => {
       <a href="/Home">Home</a>
       <a href="/BrowsePage">Browse</a>
       <a href="/ProfilePage">Profile</a>
+      <a href="/AddUser">Add User</a>
       <br></br>
     <br></br>
     </div>

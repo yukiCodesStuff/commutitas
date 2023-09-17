@@ -4,6 +4,7 @@ import './App.css'; // You can add your own styles here
 import Home from './components/Home';
 import ProfilePage from './components/ProfilePage';
 import BrowsePage from './components/BrowsePage';
+import AddUser from './components/AddUser';
 
 function App() {
   const path = window.location.pathname; // Get the current URL path
@@ -14,7 +15,10 @@ function App() {
     content = <ProfilePage />;
   } else if (path === '/BrowsePage') {
     content = <BrowsePage />;
-  } else {
+  } else if (path === '/AddUser') {
+    content = <AddUser />;
+  }
+  else {
     content = <Home />;
   }
 

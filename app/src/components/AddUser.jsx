@@ -74,12 +74,23 @@ function AddUser() {
                 <br />
                 <label>
                     Account Type:
-                    <input type="text" name="accountType" value={formData.accountType} onChange={handleInputChange} />
+                    <select name="accountType" value={formData.accountType} onChange={handleInputChange}>
+                        <option value="GUEST">Guest</option>
+                        <option value="HOST">Host</option>
+                    </select>
                 </label>
                 <br />
                 <label>
-                    Religion:
-                    <input type="text" name="religion" value={formData.religion} onChange={handleInputChange} />
+                    Religious Affiliation:
+                    <select name="accountType" value={formData.religion} onChange={handleInputChange}>
+                        <option value="CHRISTIANITY">Christianity</option>
+                        <option value="ISLAM">Islam</option>
+                        <option value="AGNOSTIC">Agnostic</option>
+                        <option value="HINDUISM">Hinduism</option>
+                        <option value="BUDDHISM">Buddhism</option>
+                        <option value="SIKHISM">Sikhism</option>
+                        <option value="ALL">Open to all</option>
+                    </select>
                 </label>
                 <br />
                 <label>

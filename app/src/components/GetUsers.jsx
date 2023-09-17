@@ -32,6 +32,7 @@ function GetUsers() {
                         <li key={user.id}>
                             <strong>Name:</strong> {user.name} <br />
                             <strong>Email:</strong> {user.email} <br />
+                            <strong>Dietary Restriction:</strong> {user.dietaryRestrictions} <br/>
                             {/* Add more user information fields as needed */}
                         </li>
                     ))}

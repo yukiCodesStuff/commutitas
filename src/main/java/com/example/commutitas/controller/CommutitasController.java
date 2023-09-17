@@ -37,6 +37,13 @@ public class CommutitasController {
         commutitasService.addNewAccount(account);
     }
 
+    @PostMapping(value = "/users/addList")
+    public void addListOfUsers(
+            @RequestBody List<Account> accounts
+    ) {
+        commutitasService.addListOfUsers(accounts);
+    }
+
     @PostMapping(value = "/event/{accountName}/create")
     public void createNewEvent(
             @PathVariable("accountName") String accountName,

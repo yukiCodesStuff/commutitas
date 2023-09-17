@@ -48,7 +48,9 @@ public class CommutitasService {
         accountRepository.save(account);
     }
 
-    public void checkEachUser(List<Account> accounts) {
+    public void addListOfUsers(List<Account> accounts) {
+
+        // Go through list: validate then add
         for (Account account : accounts) {
             addNewAccount(account);
             Optional<Account> accountByUserName = accountRepository
@@ -56,9 +58,9 @@ public class CommutitasService {
 
             if (accountByUserName.isPresent()) {
                 return;
-        }
+            }
 
-        accountRepository.save(account);
+            accountRepository.save(account);
         }
     }
 

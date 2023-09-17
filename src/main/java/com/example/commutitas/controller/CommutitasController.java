@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/commutitas")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CommutitasController {
 
     private final CommutitasService commutitasService;

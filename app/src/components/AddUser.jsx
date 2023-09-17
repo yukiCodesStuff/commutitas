@@ -5,15 +5,33 @@ function AddUser() {
     const [formData, setFormData] = useState({
         userName: 'john_doe',
         name: 'John Doe',
-        location: 'New York, USA',
+        location: 'TX',
         phoneNumber: '123-456-7890',
         email: 'john@example.com',
-        accountType: 'Basic',
+        accountType: 'GUEST',
         dietaryRestrictions: [],
-        religion: 'Christian',
+        religion: 'AGNOSITC',
         age: '30',
         bio: 'I am a software engineer with a passion for coding.'
     });
+
+    const [isSubmitted, setIsSubmitted] = useState(false); // Track form submission
+    const [newUser, setNewUser] = useState(null); // Store the new user data
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post('http://localhost:8080/commutitas', formData);
+            console.log('Response:', response.data);
+
+            // Update state to show success message and the new user
+            setIsSubmitted(true);
+            setNewUser(response.data); // Assuming the response contains the user data
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -23,16 +41,16 @@ function AddUser() {
         });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await axios.post('http://localhost:8080/commutitas', formData);
-            console.log('Response:', response.data);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //
+    //     try {
+    //         const response = await axios.post('http://localhost:8080/commutitas', formData);
+    //         console.log('Response:', response.data);
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // };
 
     return (
         <div>
@@ -85,6 +103,24 @@ function AddUser() {
                 <br />
                 <button type="submit">Submit</button>
             </form>
+            <div>
+                <h1>Commutitas Registration</h1>
+                {isSubmitted ? (
+                    <div>
+                        <p>Registration Successful!</p>
+                        <h2>New User:</h2>
+                        <p>Username: {newUser.userName}</p>
+                        <p>Full Name: {newUser.name}</p>
+                        <p>Location: {newUser.location}</p>
+                        {/* Add more user data here */}
+                    </div>
+                ) : (
+                    <form onSubmit={handleSubmit}>
+                        {/* ... Your form fields ... */}
+                        <button type="submit">Submit</button>
+                    </form>
+                )}
+            </div>
         </div>
     );
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Navbar from "../Navbar";
 
 const BrowseEvents = () => {
     const [events, setEvents] = useState([]);
@@ -25,6 +26,7 @@ const BrowseEvents = () => {
 
     return (
         <div>
+            <Navbar />
             <h2>Browse Events</h2>
             <ul>
                 {events.map((event, index) => (

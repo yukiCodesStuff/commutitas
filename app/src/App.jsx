@@ -6,7 +6,6 @@ import ProfilePage from './components/ProfilePage';
 import BrowsePage from './components/BrowsePage';
 import AddUser from './components/AddUser';
 import GetUsers from "./components/GetUsers";
-import EventCreator from "./components/CreateEvent";
 import CreateEvent from "./components/CreateEvent";
 
 function App() {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Navbar from "../Navbar";
 
 function AddUser() {
     const [formData, setFormData] = useState({
@@ -43,6 +44,7 @@ function AddUser() {
 
     return (
         <div>
+            <Navbar />
             <h1>Commutitas Registration</h1>
             <form onSubmit={handleSubmit}>
                 <label>

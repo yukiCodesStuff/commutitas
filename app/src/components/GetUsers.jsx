@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Navbar from "../Navbar";
 
 function GetUsers() {
     const [users, setUsers] = useState([]);
@@ -21,6 +22,7 @@ function GetUsers() {
 
     return (
         <div>
+            <Navbar />
             <h2>User List</h2>
             {loading ? (
                 <p>Loading...</p>

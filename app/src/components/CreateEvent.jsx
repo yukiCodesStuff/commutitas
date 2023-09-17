@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Navbar from "../Navbar";
 
 const EventCreator = () => {
     const [requestBody, setRequestBody] = useState({
@@ -45,6 +46,7 @@ const EventCreator = () => {
 
     return (
         <div>
+            <Navbar />
             <h2>Create Event</h2>
             <form>
                 <label>

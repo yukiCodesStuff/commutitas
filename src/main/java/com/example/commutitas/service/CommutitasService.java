@@ -2,11 +2,13 @@ package com.example.commutitas.service;
 
 import com.example.commutitas.entity.Account;
 import com.example.commutitas.entity.Event;
+import com.example.commutitas.enums.AccountType;
 import com.example.commutitas.repository.AccountRepository;
 import com.example.commutitas.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.PrivilegedActionException;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,27 +71,53 @@ public class CommutitasService {
     }
 
     public void deleteAccount(Long id) {
+
+        // Check if user id exists
         boolean exists = accountRepository.existsById(id);
         if (!exists) {
             throw new IllegalStateException(
                     "account with id " + id + " does not exist");
         }
 
+        // Delete
         accountRepository.deleteById(id);
+    }
+
+    public void deleteAccountByUsername(String userName) {
+
+        // Check to see if user exists
+        Optional<Account> userByUsername = accountRepository.findAccountByUserName(userName);
+        if (userByUsername.isEmpty()) {
+            throw new IllegalStateException("The user " + userName + " does not exist");
+        }
+
+        // Get user id
+        Long idToDelete = userByUsername.get().getId();
+
+        // Delete user
+        accountRepository.deleteById(idToDelete);
     }
 
     public void deleteEvent(String userName, String eventName) {
 
-        // Check if event exists
+        // Check if user exists
         Optional<Account> accountByUserName = accountRepository.findAccountByUserName(userName);
         if (accountByUserName.isEmpty()) {
             throw new IllegalStateException("The user " + userName + " does not exist");
         }
 
+        // Check if event exists
         Optional<Event> eventByName = eventRepository.findEventByNameAndHostName(eventName, userName);
-
         if (eventByName.isEmpty()) {
             throw new IllegalStateException("The event " + eventName + " hosted by user " + userName + " does not exist");
+        }
+
+        Account account = accountByUserName.get();
+        Event event = eventByName.get();
+
+        // Only host is allowed to delete the event
+        if (!event.getUserName().equals(account.getUserName())) {
+            throw new IllegalStateException("You are not allowed to perform this action!");
         }
 
         eventRepository.deleteById(eventByName.get().getId());
@@ -170,6 +198,19 @@ public class CommutitasService {
 
         // Save the event and flush changes to the database
         eventRepository.saveAndFlush(event);
+    }
+
+    public Boolean checkIfUserIsHost(String userName) {
+
+        // Check if user exists
+        Optional<Account> accountByUsername = accountRepository.findAccountByUserName(userName);
+        if (accountByUsername.isEmpty()) {
+            throw new IllegalStateException("The user " + userName + " does not exist");
+        }
+
+        // Check user Account Type
+        Account testAccount = accountByUsername.get();
+        return testAccount.getAccountType().equals(AccountType.HOST);
     }
 
 }

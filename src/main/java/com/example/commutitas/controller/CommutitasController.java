@@ -3,6 +3,7 @@ package com.example.commutitas.controller;
 import com.example.commutitas.entity.Account;
 import com.example.commutitas.entity.Event;
 import com.example.commutitas.service.CommutitasService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,10 +44,17 @@ public class CommutitasController {
         commutitasService.addNewEvent(accountName, event);
     }
 
-    @DeleteMapping(path = "{accountId}")
+    @DeleteMapping(path = "delete/id/{accountId}")
     public void deleteAccount(
             @PathVariable("accountId") Long id) {
         commutitasService.deleteAccount(id);
+    }
+
+    @DeleteMapping(path = "/delete/{userName}")
+    public void deleteAccountByUsername (
+            @PathVariable("userName") String userName
+    ) {
+        commutitasService.deleteAccountByUsername(userName);
     }
 
     @DeleteMapping(path = "/event/delete/{eventName}/{userName}")
@@ -73,5 +81,12 @@ public class CommutitasController {
             @PathVariable("hostName") String hostName
     ) {
         commutitasService.withdrawFromEvent(userName, eventName, hostName);
+    }
+
+    @GetMapping(value = "/host-check/{userName}")
+    public Boolean checkIfUserIsHost(
+            @PathParam("userName") String userName
+    ) {
+        return commutitasService.checkIfUserIsHost(userName);
     }
 }

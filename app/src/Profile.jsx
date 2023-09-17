@@ -12,8 +12,15 @@ const Profile = () => {
         <label htmlFor="password">Password:</label>
         <input type="password" id="password" name="password" required />
 
-        <label htmlFor="userType">Account Type:</label>
-        <input type="text" id="userType" name="userType" required />
+
+        <br></br>
+         <label>User Type:  </label>
+         <select name="userType" id="userType">
+        <option value="host">Host</option>
+        <option value="guest">Guest</option>
+        </select>
+        <br></br>
+        <br></br>
 
         <label htmlFor="phone">Phone Number:</label>
         <input type="text" id="phone" name="phone" required />
@@ -36,7 +43,9 @@ const Profile = () => {
         <label htmlFor="bio">Bio:</label>
         <input type="text" id="bio" name="bio" required />
 
+        <button type="submit">Sign In</button>
       </form>
+      
     </div>
   );
 };

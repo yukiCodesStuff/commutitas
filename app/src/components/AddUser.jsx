@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Navbar from "../Navbar";
 
+
 function AddUser() {
     const [formData, setFormData] = useState({
         userName: 'john_doe',
@@ -39,6 +40,26 @@ function AddUser() {
         setFormData({
             ...formData,
             [name]: value
+        });
+    };
+
+    const handleDietaryRestrictionsChange = (e) => {
+        const { name, value, checked } = e.target;
+        let updatedDietaryRestrictions;
+
+        if (checked) {
+            // Add the value to the array if it's checked
+            updatedDietaryRestrictions = [...formData.dietaryRestrictions, value];
+        } else {
+            // Remove the value from the array if it's unchecked
+            updatedDietaryRestrictions = formData.dietaryRestrictions.filter(
+                (restriction) => restriction !== value
+            );
+        }
+
+        setFormData({
+            ...formData,
+            dietaryRestrictions: updatedDietaryRestrictions,
         });
     };
 
@@ -80,6 +101,92 @@ function AddUser() {
                     </select>
                 </label>
                 <br />
+
+                <label>
+                    Dietary Restrictions:
+                    <div>
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="dietaryRestrictions"
+                                value="FISH"
+                                checked={formData.dietaryRestrictions.includes('FISH')}
+                                onChange={handleDietaryRestrictionsChange}
+                            />
+                            Fish
+                        </label>
+                        <br />
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="dietaryRestrictions"
+                                value="PEANUT_BUTTER"
+                                checked={formData.dietaryRestrictions.includes('PEANUT_BUTTER')}
+                                onChange={handleDietaryRestrictionsChange}
+                            />
+                            Peanut Butter
+                        </label>
+                        <br />
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="dietaryRestrictions"
+                                value="SHELLFISH"
+                                checked={formData.dietaryRestrictions.includes('SHELLFISH')}
+                                onChange={handleDietaryRestrictionsChange}
+                            />
+                            Shellfish
+                        </label>
+                        <br />
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="dietaryRestrictions"
+                                value="EGG"
+                                checked={formData.dietaryRestrictions.includes('EGG')}
+                                onChange={handleDietaryRestrictionsChange}
+                            />
+                            Egg
+                        </label>
+                        <br />
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="dietaryRestrictions"
+                                value="MILK"
+                                checked={formData.dietaryRestrictions.includes('MILK')}
+                                onChange={handleDietaryRestrictionsChange}
+                            />
+                            Milk
+                        </label>
+                        <br />
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="dietaryRestrictions"
+                                value="SOY"
+                                checked={formData.dietaryRestrictions.includes('SOY')}
+                                onChange={handleDietaryRestrictionsChange}
+                            />
+                            Soy
+                        </label>
+                        <br />
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="dietaryRestrictions"
+                                value="WHEAT"
+                                checked={formData.dietaryRestrictions.includes('WHEAT')}
+                                onChange={handleDietaryRestrictionsChange}
+                            />
+                            Wheat
+                        </label>
+                        <br />
+                    </div>
+                </label>
+                <br />
+
+
                 <label>
                     Religious Affiliation:
                     <select name="accountType" value={formData.religion} onChange={handleInputChange}>

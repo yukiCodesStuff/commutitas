@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from "../Navbar";
+import RegisterForEvent from "./RegisterForEvent";
+import {Link} from "react-router-dom";
 
 const BrowseEvents = () => {
     const [events, setEvents] = useState([]);
     const apiUrl = 'http://localhost:8080/commutitas/event';
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
     useEffect(() => {
         // Fetch events from the specified URL when the component mounts
@@ -24,6 +27,11 @@ const BrowseEvents = () => {
         fetchEvents();
     }, []);
 
+    const handleRegisterClick = (event) => {
+        // Set the selected event when the "Register" button is clicked
+        setSelectedEvent(event);
+    };
+
     return (
         <div>
             <Navbar />
@@ -40,7 +48,9 @@ const BrowseEvents = () => {
                         <p>City: {event.city}</p>
                         <p>Location: {event.location}</p>
                         <p>Age Limit: {event.ageLimit}</p>
-                         {/*Add more event details as needed */}
+                        <p>Attendees: {event.attendees}</p>
+                        <a href="/RegisterForEvent">REGISTER</a>
+
                     </li>
                 ))}
             </ul>
